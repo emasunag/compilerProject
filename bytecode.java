@@ -55,7 +55,16 @@ class bytecode {
 
 
     void parse(String [] line){
-
+        String operation = line[0];
+        if (line.size() == 3){
+            // decl, subr, peek, poke
+        }
+        else if (line.size() == 2){
+            // lab, printi, jmp, jmpc, pushi, pushvi, popm, popv
+        }
+        else if (line.size() == 1){
+            // cmpe, cmplt, cmpgt, swp, add, sub, mul, div
+        }
     }
 
     public int decl(String var, int type) {
