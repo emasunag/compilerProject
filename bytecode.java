@@ -55,26 +55,82 @@ class bytecode {
 
 
     void parse(String [] line){
-
+        sc++;
         String operation = line[0];
         if (line.size() == 3){
             // decl, subr, peek, poke
             Switch(operation){
                 case "decl":
                     decl(line[1], line[2]);
+                    break;
                 case "subr":
                     subr(line[1], line[2]);
+                    break;
                 case "peek":
                     peek(line[1], line[2]);
+                    break;
                 case "poke":
                     poke(line[1], line[2]);
+                    break;
             }
         }
         else if (line.size() == 2){
             // lab, printi, jmp, jmpc, pushi, pushvi, popm, popv
+            Switch(operation){
+                case "lab":
+                    lab(line[1]);
+                    break;
+                case "printi":
+                    printi(line[1]);
+                    break;
+                case "jmp":
+                    jmp(line[1]);
+                    break;
+                case "jmpc":
+                    jmpc(line[1]);
+                    break;
+                case "pushi":
+                    pushi(line[1]);
+                    break;
+                case "pushvi":
+                    pushvi(line[1]);
+                    break;
+                case "popm":
+                    popm(line[1]);
+                    break;
+                case "popv":
+                    popv(line[1]);
+                    break;
+            }
         }
         else if (line.size() == 1){
             // cmpe, cmplt, cmpgt, swp, add, sub, mul, div
+            Switch(operation){
+                case "cmpe":
+                    cmpe();
+                    break;
+                case "cmplt":
+                    cmplt();
+                    break;
+                case "cmpgt":
+                    cmpgt();
+                    break;
+                case "swp":
+                    swp();
+                    break;
+                case "add":
+                    add();
+                    break;
+                case "sub":
+                    sub();
+                    break;
+                case "mul":
+                    mul();
+                    break;
+                case "div":
+                    div();
+                    break;
+            }
         }
     }
 
