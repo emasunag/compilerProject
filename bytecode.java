@@ -1,0 +1,159 @@
+class bytecode {
+    public static final int HALT = 0;
+    public static final int JMP = 36;
+    public static final int JMPC = 40;
+    public static final int PUSHI = 70;
+    public static final int PUSHVI = 74;
+    public static final int POPM = 76;
+    public static final int POPA = 77;
+    public static final int POPV = 80;
+    public static final int PEEKI = 86;
+    public static final int POKEI = 90;
+    public static final int SWP = 94;
+    public static final int ADD = 100;
+    public static final int SUB = 104;
+    public static final int MUL = 108;
+    public static final int DIV = 112;
+    public static final int CMPE = 132;
+    public static final int CMPLT = 136;
+    public static final int CMPGT = 140;
+    public static final int PRINTI = 146;
+
+    public static final int INT = 1;
+
+    void parse(String [] line);
+    int decl(String, int);
+    int lab(String);
+    int subr(int, String);
+    int printi(int);
+    int jmp(String);
+    int jmpc(String);
+    int cmpe();
+    int cmplt();
+    int cmpgt();
+    int pushi(int);
+    int popm(int);
+    int popa(int);
+    int popv(String);
+    int peek(String, int);
+    int poke(int, String);
+    int swp();
+    int add();
+    int sub();
+    int mul();
+    int div();
+
+
+    int sc = 0; // current line being compiled
+    int pc = -1; // program counter
+    int fo = -1; // number of local variables in a function
+
+    ArrayList<String> source = new ArrayList<String>(); // lines
+    ArrayList<Integer> mem = new ArrayList<Integer>(); // opcodes
+    Map<string, value> symbol_table;
+    Map<string, value> unknown_labels;
+
+
+    void parse(String [] line){
+
+    }
+
+    public int decl(String var, int type) {
+        // the key will be the concatenation of the function label of the function being compiled
+        // and var
+        // the value will be an object containing the stack offset within the stack frame of the
+        // function that will hold the variable and the type.
+    }
+    public int lab(String label) {
+        // the key will be the label
+        // the value will be an object containing the stack offset of the functions stack
+    }
+    public int subr(int count, String flabel){
+        // cnt is the number of arguments taken in
+        // Create an entry in the symbol table (see above). The entry will be of the form <key,
+        // value>, where the key will be the flabel and the value will be the offset within the program code
+        // generated that the label appears and the value of cnt. Note that variables and flabels may have the
+        // same string since the variable is always part of a function, and the function name is part of the
+        // variable’s key.
+    }
+    public int ret(){
+        // Pop all local variables off of the stack, pop the return value off of the stack
+        // and into the PC (program counter). The next statement to be executed will be the one indicated by the
+        // updated PC.
+    }
+    public int print<type>(String literal){
+        // increment byte code offset in memory by the length of literal in bytes
+        // print the literal
+    }
+    public int printv( var){
+        // pushi var
+        // pushv type
+        // print value of var
+    }
+    public int jmp(String label){
+        // jump to statement immediately following the label
+        // pushi lable
+        // bc.jump
+    }
+    public int jmpc(String label){
+        // perform jump if top of stack has a 1
+    }
+    public int cmpe(){
+        // compare two items on top of the stack (pop that shi)
+        // push a 1 if t-1 == t , pop a 0 if not
+    }
+    public int cmplt(){
+        // compare two items on top of the stack (pop that shi)
+        // push a 1 if t-1 < t , pop a 0 if not
+    }
+    public int cmpgt(){
+        // compare two items on top of the stack (pop that shi)
+        // push a 1 if t-1 > t , pop a 0 if not
+    }
+    public int pushi(int val){
+        // push the val onto stack
+    }
+    public int popm(int val){
+        // pop val # items off the stack
+        // bc.pushi val
+        // bc.popm
+    }
+    public int popa(int val){
+        // pop val # items off the stack
+        // bc.pushi val
+        // bc.popm
+    }
+    public int popv(String var){
+        // pop the current top of stack and put it into var
+        // pushi (var)
+        // bc.popv
+    }
+    public int peek(String var,int val){
+        // var = stack[sp+val]
+        // types of both ^ must be the same
+    }
+    public int poke(int val,String var){
+        // stacks[sp+val] = var
+        // types must be the same
+    }
+    public int swp(){
+        // swap the top two stack elements
+    }
+    public int add(){
+        // add the top two stack elements
+        // *t = *(t-1) + *t
+    }
+    public int sub(){
+        // subtract the top two stack elements
+        // *t = *(t-1) - *t
+    }
+    public int mul(){
+        // multiply the top two stack elements
+        // *t = *(t-1) x *t
+    }
+    public int div(){
+        // divide the top two stack elements
+        // *t = *(t-1) / *t
+    }
+
+}
