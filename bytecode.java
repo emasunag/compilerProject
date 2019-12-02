@@ -55,9 +55,20 @@ class bytecode {
 
 
     void parse(String [] line){
+
         String operation = line[0];
         if (line.size() == 3){
             // decl, subr, peek, poke
+            Switch(operation){
+                case "decl":
+                    decl(line[1], line[2]);
+                case "subr":
+                    subr(line[1], line[2]);
+                case "peek":
+                    peek(line[1], line[2]);
+                case "poke":
+                    poke(line[1], line[2]);
+            }
         }
         else if (line.size() == 2){
             // lab, printi, jmp, jmpc, pushi, pushvi, popm, popv
