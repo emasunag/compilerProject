@@ -16,10 +16,10 @@ public class Compiler{
             String st;
             while ((st = br.readLine()) != null) {
                 String[] parts = st.split(" ");
-                System.out.println("_________LINE_________");
-                for (int i = 0; i < parts.length; i++) {
-                    System.out.println(parts[i]);
-                }
+//                System.out.println("_________LINE_________");
+//                for (int i = 0; i < parts.length; i++) {
+//                    System.out.println(parts[i]);
+//                }
                 bc.parse(parts);
 
             }
