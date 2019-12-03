@@ -147,7 +147,8 @@ class bytecode {
     }
     public int lab(String label) {
         String var_name = 'main' + '_' + label;
-        Symbol_table.put(var_name,sc);
+        int[] value = {++sc, type};
+        Symbol_table.put(var_name,value);
         pc+=1;
         // the key will be the label
         // the value will be an object containing the stack offset of the functions stack
@@ -177,11 +178,11 @@ class bytecode {
         mem.add(PRINTI);
         pc+=1;
     }
-    public int printv(var){
-        // pushi var
-        // pushv type
-        // print value of var
-    }
+//    public int printv(var){
+//        // pushi var
+//        // pushv type
+//        // print value of var
+//    }
     public int jmp(String label){
         // jump to statement immediately following the label
         // pushi lable
@@ -226,11 +227,11 @@ class bytecode {
         // bc.pushi val
         // bc.popm
     }
-    public int popa(int val){
-        // pop val # items off the stack
-        // bc.pushi val
-        // bc.popm
-    }
+//    public int popa(int val){
+//        // pop val # items off the stack
+//        // bc.pushi val
+//        // bc.popm
+//    }
     public int popv(String var){
         // pop the current top of stack and put it into var
         // pushi (var)
