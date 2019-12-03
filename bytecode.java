@@ -135,6 +135,10 @@ class bytecode {
     }
 
     public int decl(String var, int type) {
+        String var_name = 'main' + '_' + var;
+        int[] value = {++fo, type};
+        Symbol_table.put(var_name, value);
+        pushi(0);
         // the key will be the concatenation of the function label of the function being compiled
         // and var
         // the value will be an object containing the stack offset within the stack frame of the
@@ -151,7 +155,6 @@ class bytecode {
         // generated that the label appears and the value of cnt. Note that variables and flabels may have the
         // same string since the variable is always part of a function, and the function name is part of the
         // variable’s key.
-        //asdf
     }
     public int ret(){
         // Pop all local variables off of the stack, pop the return value off of the stack
@@ -178,16 +181,29 @@ class bytecode {
     public int cmpe(){
         // compare two items on top of the stack (pop that shi)
         // push a 1 if t-1 == t , pop a 0 if not
+        mem.add(CMPE);
+        pc+=1;
     }
     public int cmplt(){
         // compare two items on top of the stack (pop that shi)
         // push a 1 if t-1 < t , pop a 0 if not
+        mem.add(CMPLT);
+        pc+=1;
     }
     public int cmpgt(){
         // compare two items on top of the stack (pop that shi)
         // push a 1 if t-1 > t , pop a 0 if not
+        mem.add(CMPGT);
+        pc+=1;
     }
     public int pushi(int val){
+        Integer[] bytes = Arrays.copyof(val, val.length);
+        mem.add(PUSHI);
+        mem.add(bytes[0]);
+        mem.add(bytes[1]);
+        mem.add(bytes[2]);
+        mem.add(bytes[3]);
+        pc += 5;
         // push the val onto stack
     }
     public int popm(int val){
@@ -217,18 +233,26 @@ class bytecode {
         // swap the top two stack elements
     }
     public int add(){
+        mem.add(ADD);
+        pc+=1;
         // add the top two stack elements
         // *t = *(t-1) + *t
     }
     public int sub(){
+        mem.add(SUB);
+        pc+=1;
         // subtract the top two stack elements
         // *t = *(t-1) - *t
     }
     public int mul(){
+        mem.add(MUL);
+        pc+=1;
         // multiply the top two stack elements
         // *t = *(t-1) x *t
     }
     public int div(){
+        mem.add(DIV);
+        pc+=1;
         // divide the top two stack elements
         // *t = *(t-1) / *t
     }
