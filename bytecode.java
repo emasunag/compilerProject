@@ -53,6 +53,9 @@ class bytecode {
     Map<string, value> symbol_table;
     Map<string, value> unknown_labels;
 
+    void compile(ArrayList<byte>des){
+        des = mem;
+    }
 
     void parse(String [] line){
         sc++;

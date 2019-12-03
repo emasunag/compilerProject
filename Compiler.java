@@ -34,14 +34,11 @@ public class Compiler{
         ArrayList<byte> destination = new ArrayList<byte>();
         bc.compile(destination);
 
-        // _________________Program still needs:__________________
-        // - symbol table
-        // - all of these below:
-        //        program counter
-        //        stack pointer
-        //        runtime stack
-        //        frame pointer stack pointer
-        //        frame pointer stack
+        throws IOException {
+            FileOutputStream outputStream = new FileOutputStream('test.smp');
+            outputStream.write(destination);
+            outputStream.close();
+        }
 
         // Using a symbol table:
             // utilizes key and data
