@@ -79,6 +79,10 @@ class bytecode {
     }
 
     public int decl(String var, int type) {
+        String var_name = 'main' + '_' + var;
+        int[] value = {++fo, type};
+        Symbol_table.put(var_name, value);
+        pushi(0);
         // the key will be the concatenation of the function label of the function being compiled
         // and var
         // the value will be an object containing the stack offset within the stack frame of the
@@ -121,14 +125,20 @@ class bytecode {
     public int cmpe(){
         // compare two items on top of the stack (pop that shi)
         // push a 1 if t-1 == t , pop a 0 if not
+        mem.add(CMPE);
+        pc+=1;
     }
     public int cmplt(){
         // compare two items on top of the stack (pop that shi)
         // push a 1 if t-1 < t , pop a 0 if not
+        mem.add(CMPLT);
+        pc+=1;
     }
     public int cmpgt(){
         // compare two items on top of the stack (pop that shi)
         // push a 1 if t-1 > t , pop a 0 if not
+        mem.add(CMPGT);
+        pc+=1;
     }
     public int pushi(int val){
             Integer[] bytes = Arrays.copyof(val, val.length);
