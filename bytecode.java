@@ -139,16 +139,25 @@ class bytecode {
         int[] value = {++fo, type};
         Symbol_table.put(var_name, value);
         pushi(0);
+        pc+=1;
         // the key will be the concatenation of the function label of the function being compiled
         // and var
         // the value will be an object containing the stack offset within the stack frame of the
         // function that will hold the variable and the type.
     }
     public int lab(String label) {
+        String var_name = 'main' + '_' + label;
+        Symbol_table.put(var_name,sc);
+        pc+=1;
         // the key will be the label
         // the value will be an object containing the stack offset of the functions stack
     }
     public int subr(int count, String flabel){
+        pushi(16);
+        pushi(17);
+        pushi(1);
+        pc+=1;
+
         // cnt is the number of arguments taken in
         // Create an entry in the symbol table (see above). The entry will be of the form <key,
         // value>, where the key will be the flabel and the value will be the offset within the program code
@@ -161,11 +170,14 @@ class bytecode {
         // and into the PC (program counter). The next statement to be executed will be the one indicated by the
         // updated PC.
     }
-    public int print<type>(String literal){
+    public int printi(int literal){
         // increment byte code offset in memory by the length of literal in bytes
         // print the literal
+        pushi(literal);
+        mem.add(PRINTI);
+        pc+=1;
     }
-    public int printv( var){
+    public int printv(var){
         // pushi var
         // pushv type
         // print value of var
@@ -208,6 +220,8 @@ class bytecode {
         // push the val onto stack
     }
     public int popm(int val){
+        pushi(val);
+        mem.add(POPM);
         // pop val # items off the stack
         // bc.pushi val
         // bc.popm
@@ -231,6 +245,8 @@ class bytecode {
         // types must be the same
     }
     public int swp(){
+        mem.add(SWP);
+        pc +=1;
         // swap the top two stack elements
     }
     public int add(){
