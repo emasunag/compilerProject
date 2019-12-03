@@ -1,3 +1,5 @@
+import java.io.*;
+import java.util.*;
 class bytecode {
     public static final int HALT = 0;
     public static final int JMP = 36;
@@ -21,27 +23,27 @@ class bytecode {
 
     public static final int INT = 1;
 
-    void parse(String [] line);
-    int decl(String, int);
-    int lab(String);
-    int subr(int, String);
-    int printi(int);
-    int jmp(String);
-    int jmpc(String);
-    int cmpe();
-    int cmplt();
-    int cmpgt();
-    int pushi(int);
-    int popm(int);
-    int popa(int);
-    int popv(String);
-    int peek(String, int);
-    int poke(int, String);
-    int swp();
-    int add();
-    int sub();
-    int mul();
-    int div();
+//    void parse(String [] line);
+//    int decl(String var, int val);
+//    int lab(String label);
+//    int subr(int count, String flabel);
+//    int printi(int literal);
+//    int jmp(String label);
+//    int jmpc(String label);
+//    int cmpe();
+//    int cmplt();
+//    int cmpgt();
+//    int pushi(int val);
+//    int popm(int val);
+//    int popa(int val);
+//    int popv(String var);
+//    int peek(String var, int val);
+//    int poke(int val, String var);
+//    int swp();
+//    int add();
+//    int sub();
+//    int mul();
+//    int div();
 
 
     int sc = 0; // current line being compiled
@@ -62,7 +64,7 @@ class bytecode {
         String operation = line[0];
         if (line.size() == 3){
             // decl, subr, peek, poke
-            Switch(operation){
+            switch(operation){
                 case "decl":
                     decl(line[1], line[2]);
                     break;
@@ -79,7 +81,7 @@ class bytecode {
         }
         else if (line.size() == 2){
             // lab, printi, jmp, jmpc, pushi, pushvi, popm, popv
-            Switch(operation){
+            switch(operation){
                 case "lab":
                     lab(line[1]);
                     break;
@@ -108,7 +110,7 @@ class bytecode {
         }
         else if (line.size() == 1){
             // cmpe, cmplt, cmpgt, swp, add, sub, mul, div
-            Switch(operation){
+            switch(operation){
                 case "cmpe":
                     cmpe();
                     break;
@@ -139,6 +141,7 @@ class bytecode {
 
     public int decl(String var, int type) {
         String var_name = 'main + '_' + var;
+
         int[] value = {++fo, type};
         Symbol_table.put(var_name, value);
         pushi(0);
@@ -149,7 +152,7 @@ class bytecode {
         // function that will hold the variable and the type.
     }
     public int lab(String label) {
-        String var_name = 'main' + '_' + label;
+        String var_name = "main" + "_" + label;
         int[] value = {++sc, type};
         Symbol_table.put(var_name,value);
         pc+=1;
