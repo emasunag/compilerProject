@@ -34,10 +34,13 @@ public class Compiler{
         ArrayList<byte> destination = new ArrayList<byte>();
         bc.compile(destination);
 
-        throws IOException {
-            FileOutputStream outputStream = new FileOutputStream('test.smp');
+        try{
+            FileOutputStream outputStream = new FileOutputStream("test.smp");
             outputStream.write(destination);
             outputStream.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
         }
 
         // Using a symbol table:
