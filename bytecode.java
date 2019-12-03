@@ -138,7 +138,7 @@ class bytecode {
     }
 
     public int decl(String var, int type) {
-        String var_name = 'main' + '_' + var;
+        String var_name = 'main + '_' + var;
         int[] value = {++fo, type};
         Symbol_table.put(var_name, value);
         pushi(0);
