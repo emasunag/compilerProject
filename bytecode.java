@@ -95,6 +95,7 @@ class bytecode {
         // generated that the label appears and the value of cnt. Note that variables and flabels may have the
         // same string since the variable is always part of a function, and the function name is part of the
         // variable’s key.
+        //asdf
     }
     public int ret(){
         // Pop all local variables off of the stack, pop the return value off of the stack
