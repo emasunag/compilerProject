@@ -187,6 +187,13 @@ class bytecode {
         // push a 1 if t-1 > t , pop a 0 if not
     }
     public int pushi(int val){
+            Integer[] bytes = Arrays.copyof(val, val.length);
+            mem.add(PUSHI);
+            mem.add(bytes[0]);
+            mem.add(bytes[1]);
+            mem.add(bytes[2]);
+            mem.add(bytes[3]);
+            pc += 5;
         // push the val onto stack
     }
     public int popm(int val){
@@ -216,18 +223,26 @@ class bytecode {
         // swap the top two stack elements
     }
     public int add(){
+        mem.add(ADD);
+        pc+=1;
         // add the top two stack elements
         // *t = *(t-1) + *t
     }
     public int sub(){
+        mem.add(SUB);
+        pc+=1;
         // subtract the top two stack elements
         // *t = *(t-1) - *t
     }
     public int mul(){
+        mem.add(MUL);
+        pc+=1;
         // multiply the top two stack elements
         // *t = *(t-1) x *t
     }
     public int div(){
+        mem.add(DIV);
+        pc+=1;
         // divide the top two stack elements
         // *t = *(t-1) / *t
     }
