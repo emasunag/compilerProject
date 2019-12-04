@@ -25,48 +25,32 @@ class bytecode {
 
     public static final int INT = 1;
 
-//    void parse(String [] line);
-//    int decl(String var, int val);
-//    int lab(String label);
-//    int subr(int count, String flabel);
-//    int printi(int literal);
-//    int jmp(String label);
-//    int jmpc(String label);
-//    int cmpe();
-//    int cmplt();
-//    int cmpgt();
-//    int pushi(int val);
-//    int popm(int val);
-//    int popa(int val);
-//    int popv(String var);
-//    int peek(String var, int val);
-//    int poke(int val, String var);
-//    int swp();
-//    int add();
-//    int sub();
-//    int mul();
-//    int div();
-
 
     int sc = 0; // current line being compiled
     int pc = -1; // program counter
     int fo = -1; // number of local variables in a function
 
     ArrayList<String> source = new ArrayList<String>(); // lines
-    ArrayList<Byte> mem = new ArrayList<Byte>(); // opcodes
-    Map<String, Integer> symbol_table;
+    ArrayList<Integer> mem = new ArrayList<Integer>(); // opcodes
+    Map<String, Integer> symbol_table = new HashMap<>();
     Map<String, Integer> unknown_labels;
 
-    void compile(ArrayList<Byte>des){
+    ArrayList<Integer> compile(ArrayList<Integer> des) {
         des = mem;
+//                for(int i = 0; i < des.size(); i++)
+//        {
+////            b_array[i] = destination.get(i);
+//           System.out.println(des.get(i));
+//        }
+        return des;
     }
 
-    void parse(String [] line){
+    void parse(String[] line) {
         sc++;
         String operation = line[0];
-        if (line.length == 3){
+        if (line.length == 3) {
             // decl, subr, peek, poke
-            switch(operation){
+            switch (operation) {
                 case "decl":
                     decl(line[1], line[2]);
                     break;
@@ -80,15 +64,17 @@ class bytecode {
 //                    poke(line[1], line[2]);
 //                    break;
             }
-        }
-        else if (line.length == 2){
+        } else if (line.length == 2) {
             // lab, printi, jmp, jmpc, pushi, pushvi, popm, popv
-            switch(operation){
+            switch (operation) {
                 case "lab":
                     lab(line[1]);
                     break;
                 case "printi":
                     printi(line[1]);
+                    break;
+                case "printv":
+                    printv(line[1]);
                     break;
 //                case "jmp":
 //                    jmp(line[1]);
@@ -96,23 +82,26 @@ class bytecode {
 //                case "jmpc":
 //                    jmpc(line[1]);
 //                    break;
-//                case "pushi":
-//                    pushi(line[1]);
-//                    break;
-//                case "pushvi":
-//                    pushvi(line[1]);
-//                    break;
+                case "pushi":
+                    int value = Integer.parseInt(line[1]);
+                    pushi(value);
+                    break;
+                case "pushvi":
+                    pushvi(line[1]);
+                    break;
 //                case "popm":
 //                    popm(line[1]);
 //                    break;
-//                case "popv":
-//                    popv(line[1]);
-//                    break;
+                case "popv":
+                    popv(line[1]);
+                    break;
             }
-        }
-        else if (line.length == 1){
+        } else if (line.length == 1) {
             // cmpe, cmplt, cmpgt, swp, add, sub, mul, div
-            switch(operation){
+            switch (operation) {
+                case "ret":
+                    ret();
+                    break;
 //                case "cmpe":
 //                    cmpe();
 //                    break;
@@ -142,32 +131,36 @@ class bytecode {
     }
 
     public int decl(String var, String type) {
-        String var_name = "main" + "_" + var;
-        int value = Integer.parseInt(type);
-        symbol_table.put(var_name, value);
+        String var_name = var;
+//        System.out.println(var_name);
+//        int value = Integer.parseInt(type);
+        ++fo;
+        symbol_table.put(var_name, fo);
         pushi(0);
-        pc+=1;
+        pc += 1;
         // the key will be the concatenation of the function label of the function being compiled
         // and var
         // the value will be an object containing the stack offset within the stack frame of the
         // function that will hold the variable and the type.
         return 0;
     }
+
     public int lab(String label) {
         String var_name = "main" + "_" + label;
-        symbol_table.put(var_name,mem.size());
-        pc+=1;
+        symbol_table.put(var_name, mem.size());
+        pc += 1;
         return 0;
         // the key will be the label
         // the value will be an object containing the stack offset of the functions stack
     }
-    public int subr(String count, String flabel){
+
+    public int subr(String count, String flabel) {
         pushi(16);
         pushi(17);
         pushi(1);
-        mem.add((byte)CALL);
-        mem.add((byte)HALT);
-        pc+=1;
+        mem.add(CALL);
+        mem.add(HALT);
+        pc += 1;
         return 0;
 
         // cnt is the number of arguments taken in
@@ -177,30 +170,48 @@ class bytecode {
         // same string since the variable is always part of a function, and the function name is part of the
         // variable’s key.
     }
-    public int ret(){
+
+    public int ret() {
         pushi(0);
-        mem.add((byte)POPA);
-        mem.add((byte)RET);
+        mem.add(POPA);
+        mem.add(RET);
         // Pop all local variables off of the stack, pop the return value off of the stack
         // and into the PC (program counter). The next statement to be executed will be the one indicated by the
         // updated PC.
         return 0;
     }
-    public int printi(String literal){
+
+    public int printi(String literal) {
         // increment byte code offset in memory by the length of literal in bytes
         // print the literal
         int value = Integer.parseInt(literal);
         pushi(value);
-        mem.add((byte)PRINTI);
-        pc+=1;
+        mem.add(PRINTI);
+        pc += 1;
         return 0;
     }
-////    public int printv(var){
-////        // pushi var
-////        // pushv type
-////        // print value of var
-////    }
-//    public int jmp(String label){
+
+    public int printv(String var) {
+        int value = symbol_table.get(var);
+        pushi(value);
+        pushvi(var);
+//        mem.add(PUSHVI);
+        mem.add(PRINTI);
+
+        return 0;
+        // pushi var
+        // pushv type
+        // print value of var
+    }
+
+    public int pushvi(String var) {
+        int value = symbol_table.get(var);
+        pushi(value);
+        mem.add(PUSHVI);
+        return 0;
+    }
+
+    //    public int jmp(String label){
 //        // jump to statement immediately following the label
 //        // pushi lable
 //        // bc.jump
@@ -226,36 +237,43 @@ class bytecode {
 //        mem.add((byte)CMPGT);
 //        pc+=1;
 //    }
-    public int pushi(int val){
+    public int pushi(int val) {
 
         byte[] bytes;
-        mem.add((byte)PUSHI);
-        mem.add((byte)(val));
-        mem.add((byte)(val >> 8));
-        mem.add((byte)(val >> 16));
-        mem.add((byte)(val >> 24));
+        mem.add(PUSHI);
+        mem.add((val));
+        mem.add((val >> 8));
+        mem.add((val >> 16));
+        mem.add((val >> 24));
         pc += 5;
 
         return 0;
         // push the val onto stack
     }
-//    public int popm(int val){
+
+    //    public int popm(int val){
 //        pushi(val);
 //        mem.add(POPM);
-        // pop val # items off the stack
-        // bc.pushi val
-        // bc.popm
-    }
+    // pop val # items off the stack
+    // bc.pushi val
+    // bc.popm
+//    }
 //    public int popa(int val){
 //        // pop val # items off the stack
 //        // bc.pushi val
 //        // bc.popm
 //    }
-//    public int popv(String var){
-//        // pop the current top of stack and put it into var
-//        // pushi (var)
-//        // bc.popv
-//    }
+    public int popv(String var) {
+        int value = symbol_table.get(var);
+        pushi(value);
+        mem.add(POPV);
+
+
+        return 0;
+
+    }
+
+
 //    public int peek(String var,int val){
 //        // var = stack[sp+val]
 //        // types of both ^ must be the same
@@ -293,4 +311,4 @@ class bytecode {
 //        // divide the top two stack elements
 //        // *t = *(t-1) / *t
 
-
+}

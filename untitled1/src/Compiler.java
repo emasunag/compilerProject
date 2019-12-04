@@ -32,9 +32,26 @@ public class Compiler{
         }
 
         // write all of memory at end
-//        ArrayList<Byte> destination = new ArrayList<Byte>();
-//        bc.compile(destination);
+        ArrayList<Integer> destination = new ArrayList<Integer>();
+        destination = bc.compile(destination);
 //
+//        FileOutputStream fos;
+//        BufferedOutputStream bos;
+//        fos = new FileOutputStream("/Users/daryldabreo/Documents/compilerProject/OutputTest/Hewlp.bin");
+//        bos = new BufferedOutputStream(fos);
+//        byte[] b_array = new byte[destination.size()];
+//        byte[] b_array = new byte[3];
+//        b_array[0] = (byte) 146;
+//        b_array[1] = (byte) 20;
+//        b_array[2] = (byte) 123;
+        DataOutputStream os = new DataOutputStream(new FileOutputStream("/Users/daryldabreo/Documents/compilerProject/OutputTest/Hewlp.bin"));
+         for(int i = 0; i < destination.size(); i++)
+        {
+            os.writeByte(destination.get(i));
+          System.out.println(destination.get(i));
+        }
+        os.close();
+
 //        try{
 //            FileOutputStream outputStream = new FileOutputStream("test.smp");
 //            outputStream.write(destination);
