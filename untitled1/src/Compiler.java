@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.*;
 public class Compiler{
     public static void main(String[] args) throws Exception  {
         // basically read file and process commands and operations
@@ -31,17 +32,17 @@ public class Compiler{
         }
 
         // write all of memory at end
-        ArrayList<byte> destination = new ArrayList<byte>();
-        bc.compile(destination);
-
-        try{
-            FileOutputStream outputStream = new FileOutputStream("test.smp");
-            outputStream.write(destination);
-            outputStream.close();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+//        ArrayList<Byte> destination = new ArrayList<Byte>();
+//        bc.compile(destination);
+//
+//        try{
+//            FileOutputStream outputStream = new FileOutputStream("test.smp");
+//            outputStream.write(destination);
+//            outputStream.close();
+//        }
+//        catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         // Using a symbol table:
             // utilizes key and data
