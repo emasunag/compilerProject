@@ -11,6 +11,7 @@ public class Compiler{
 
 
         BufferedReader br = null;
+        BufferedReader brt = null;
         try {
             br = new BufferedReader(new FileReader(args[0]));
 
@@ -23,7 +24,29 @@ public class Compiler{
                 }
                 bc.parse(parts);
 
+
+
             }
+
+
+            bc.mem.clear();
+            bc.pc = -1;
+            bc.fo = -1;
+            bc.sc = 0;
+            brt = new BufferedReader(new FileReader(args[0]));
+           // String st;
+            while ((st = brt.readLine()) != null) {
+                String[] parts = st.split(" ");
+                System.out.println("_________LINE_________");
+                for (int i = 0; i < parts.length; i++) {
+                    System.out.println(parts[i]);
+                }
+
+                bc.parse(parts);
+
+            }
+
+
         }
         catch (FileNotFoundException e) {
             e.printStackTrace();
